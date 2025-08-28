@@ -1,7 +1,9 @@
 package su.kaizen.kdreamer
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.util.TimeFormatException
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -14,6 +16,7 @@ import com.google.android.material.textfield.TextInputEditText
 import java.sql.Time
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 
 @RequiresApi(Build.VERSION_CODES.O)
 
@@ -22,9 +25,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var calculateBtn: Button;
     lateinit var nowBtn: Button;
     lateinit var hourTxt: TextView;
-    lateinit var time: LocalTime;
     lateinit var format: DateTimeFormatter;
-
+    lateinit var statusTxt: TextView;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -39,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         nowBtn = findViewById(R.id.nowButton);
         hourTxt = findViewById(R.id.hourText);
         format = DateTimeFormatter.ofPattern("HH:mm");
-
+        statusTxt = findViewById(R.id.statusText);
         calculateBtn.setOnClickListener{
             getHourNShow(false);
         }
@@ -55,19 +57,38 @@ class MainActivity : AppCompatActivity() {
     fun getHourNShow(nowPressed: Boolean){
         var time: String;
         var parsedTime: LocalTime;
-        if (nowPressed) {
-            parsedTime = getActualTime();
+        try{
+            if (nowPressed) {
+                parsedTime = getActualTime();
+            }
+            else{
+                time = input.text.toString();
+                parsedTime = LocalTime.parse(time,format);
+            }
+            showError(false);
+            var txt2show = "";
+            for(i in 1..8){
+                parsedTime = parsedTime.plusMinutes(90);
+                txt2show += "Cycle "+i+": "+parsedTime.format(format)+"\n";
+            }
+            hourTxt.text = txt2show;
         }
-        else{
-            time = input.text.toString();
-            parsedTime = LocalTime.parse(time,format);
+        catch(ex: DateTimeParseException){
+            showError(true);
+            input.setText("");
+            hourTxt.setText("");
         }
 
-        var txt2show = "";
-        for(i in 1..8){
-            parsedTime = parsedTime.plusMinutes(90);
-            txt2show += "Cycle "+i+": "+parsedTime.format(format)+"\n";
+
+    }
+
+    fun showError(toggle: Boolean){
+        if(toggle){
+            statusTxt.setText("Please enter a valid time (hh:mm) in 24h format.");
         }
-        hourTxt.text = txt2show;
+        else{
+            statusTxt.setText("");
+        }
+
     }
 }
