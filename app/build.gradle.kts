@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "su.kaizen.kdreamer"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "su.kaizen.kdreamer"
