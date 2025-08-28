@@ -1,10 +1,13 @@
 package su.kaizen.kdreamer
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.TimeFormatException
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -12,6 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import java.sql.Time
 import java.time.LocalTime
@@ -55,6 +59,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getHourNShow(nowPressed: Boolean){
+        hideKeyboard();
         var time: String;
         var parsedTime: LocalTime;
         try{
@@ -93,5 +98,20 @@ class MainActivity : AppCompatActivity() {
             statusTxt.setText("");
         }
 
+    }
+
+    // I copied this from StackOverflow lol
+    fun Fragment.hideKeyboard() {
+        view?.let { activity?.hideKeyboard(it) }
+    }
+
+    fun Activity.hideKeyboard() {
+        hideKeyboard(currentFocus ?: View(this))
+    }
+
+    @SuppressLint("ServiceCast")
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }
