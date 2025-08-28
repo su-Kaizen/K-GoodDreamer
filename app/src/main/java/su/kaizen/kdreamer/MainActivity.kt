@@ -67,7 +67,10 @@ class MainActivity : AppCompatActivity() {
             }
             showError(false);
             var txt2show = "";
-            for(i in 1..8){
+            for(i in 1..6){
+                if(i == 4){
+                    txt2show += "--- Optimal ---\n"
+                }
                 parsedTime = parsedTime.plusMinutes(90);
                 txt2show += "Cycle "+i+": "+parsedTime.format(format)+"\n";
             }
