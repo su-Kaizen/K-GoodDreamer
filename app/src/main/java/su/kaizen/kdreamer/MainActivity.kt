@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getHourNShow(nowPressed: Boolean){
+        hideKeyboard();
         var time: String;
         var parsedTime: LocalTime;
         try{
