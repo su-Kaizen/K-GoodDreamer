@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.util.TimeFormatException
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -17,7 +16,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
-import java.sql.Time
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -30,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var nowBtn: Button;
     lateinit var hourTxt: TextView;
     lateinit var format: DateTimeFormatter;
+    lateinit var showFormat: DateTimeFormatter;
     lateinit var statusTxt: TextView;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         nowBtn = findViewById(R.id.nowButton);
         hourTxt = findViewById(R.id.hourText);
         format = DateTimeFormatter.ofPattern("HH:mm");
+        showFormat = DateTimeFormatter.ofPattern("H'h 'mm'min'")
         statusTxt = findViewById(R.id.statusText);
         calculateBtn.setOnClickListener{
             getHourNShow(false);
@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity() {
         hideKeyboard();
         var time: String;
         var parsedTime: LocalTime;
+        var parsedSlept: String;
         try{
             if (nowPressed) {
                 input.setText("");
@@ -73,12 +74,16 @@ class MainActivity : AppCompatActivity() {
             }
             showError(false);
             var txt2show = "";
+            var timeSlept = LocalTime.of(0,0);
+
             for(i in 1..6){
                 if(i == 4){
-                    txt2show += "--- Optimal ---\n"
+                    txt2show += "------ Optimal ------\n"
                 }
                 parsedTime = parsedTime.plusMinutes(90);
-                txt2show += "Cycle "+i+": "+parsedTime.format(format)+"\n";
+                timeSlept = timeSlept.plusMinutes(90);
+                parsedSlept = timeSlept.format(showFormat);
+                txt2show += "Cycle "+i+": "+parsedTime.format(format)+" | "+parsedSlept+"\n";
             }
             hourTxt.text = txt2show;
         }
@@ -98,7 +103,6 @@ class MainActivity : AppCompatActivity() {
         else{
             statusTxt.setText("");
         }
-
     }
 
     // I copied this from StackOverflow lol

@@ -46,7 +46,7 @@
         android:textColor="#EEEEEE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.285" />
@@ -68,18 +68,19 @@
 
     <TextView
         android:id="@+id/hourText"
-        android:layout_width="285dp"
-        android:layout_height="414dp"
+        android:layout_width="354dp"
+        android:layout_height="419dp"
         android:fontFamily="monospace"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="#EEEEEE"
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.889" />
+        app:layout_constraintVertical_bias="0.871" />
 
     <TextView
         android:id="@+id/statusText"
