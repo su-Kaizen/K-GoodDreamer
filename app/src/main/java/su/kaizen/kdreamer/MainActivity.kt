@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity() {
         var parsedTime: LocalTime;
         try{
             if (nowPressed) {
+                input.setText("");
                 parsedTime = getActualTime();
             }
             else{
